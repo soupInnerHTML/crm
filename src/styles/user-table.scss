@@ -1,0 +1,113 @@
+@import "variables/colors";
+@import "variables/borders";
+@import "variables/sizes";
+
+
+@mixin grid-layout {
+  display: grid;
+  //grid-template-columns: 8% repeat(4, minmax(100px, 1fr)) 8%;
+}
+
+@mixin arrow {
+  content: "";
+  position: absolute; /* Абсолютное позиционирование для размещения */
+  right: -15px; /* Расположение стрелочки справа */
+  top: 50%; /* Центрирование по вертикали */
+  transform: translateY(-50%); /* Центрирование по вертикали */
+  border-left: 5px solid transparent; /* Создание стрелочки */
+  border-right: 5px solid transparent; /* Создание стрелочки */
+  border-top: 5px solid gray; /* Цвет стрелочки */
+}
+
+.user-table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: $border-radius;
+  overflow: scroll;
+  position: relative;
+  max-height: 80vh;
+  // для красивого border-radius
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: $thick-border;
+    border-radius: 16px;
+    background: inherit;
+    z-index: -1;
+  }
+  &__headers {
+    @include grid-layout;
+    height: 60px;
+  }
+  &__header {
+    border: $default-border;
+    padding: 0 16px;
+    text-transform: capitalize;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      right: -10px;
+      top: 0;
+      bottom: 0;
+      width: 20px;
+      cursor: col-resize;
+    }
+    &__text{
+      position: relative;
+      width: fit-content;
+      cursor: pointer;
+      &::after {
+       @include arrow;
+        transition: .5s transform ease-in-out;
+      }
+    }
+    &__text_sorted{
+      &::after {
+        @include arrow;
+        transform: translateY(-40%) rotate(180deg);
+      }
+    }
+  }
+  &__rows {
+    // TODO add styles?
+  }
+  &__row {
+    @include grid-layout;
+    cursor: grab;
+    &__content {
+      border: $default-border;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 53px;
+      overflow: hidden;
+      padding: 10px;
+      &__text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: 1;
+        cursor: pointer;
+      }
+      &__delete {
+        background-color: $danger;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+    }
+  }
+}

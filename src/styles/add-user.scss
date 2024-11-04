@@ -1,0 +1,25 @@
+@import "variables/colors";
+
+.add-user-form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  &__field_error {
+    position: relative;
+    .input {
+      margin-bottom: 30px;
+      border-radius: 25px;
+      border: 1px solid $danger;
+      &::placeholder {
+        color: $danger;
+      }
+    }
+    .error {
+      position: absolute;
+      left: 5px;
+      top: 36px;
+      font-size: 12px;
+      font-weight: 300;
+    }
+  }
+}

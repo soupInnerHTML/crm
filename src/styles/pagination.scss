@@ -1,0 +1,17 @@
+@import "variables/colors";
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3px;
+  margin-bottom: 5px;
+  &__page {
+    border: 0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    &_active {
+      background-color: $accent;
+      color: #fff;
+    }
+  }
+}

@@ -1,0 +1,1 @@
+export const REQUIRED_VALIDATION_MESSAGE = 'Required field'
