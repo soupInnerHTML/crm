@@ -3,7 +3,7 @@ import {useStore} from "../../../../hooks";
 import {observer} from "mobx-react-lite";
 import {makeHeader} from "../../../../utils/makeHeader";
 import {UserTableHeader} from "./UserTableHeader";
-import {userTableViewModel} from "../../../../viewModels/userTableViewModel";
+// import {UserTableViewModel} from "../../../../viewModels/userTableViewModel";
 
 export const UserTableHeaders: React.FC = observer(() => {
     const [sorting, setSorting] = useState<ISortingField | null>(null)
@@ -21,7 +21,7 @@ export const UserTableHeaders: React.FC = observer(() => {
     return (
         <div
             className="user-table__headers"
-            style={{gridTemplateColumns: userTableViewModel.gridTemplate}}
+            // style={{gridTemplateColumns: userTableViewModel.gridTemplate}}
         >
             {headers.map((header, index) => (
                 <UserTableHeader

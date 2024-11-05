@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import {useStore} from "../../../hooks";
 import {areYouSure} from "../../../utils/areYouSure";
-import {userTableViewModel} from "../../../viewModels/userTableViewModel";
+// import {userTableViewModel} from "../../../viewModels/userTableViewModel";
 
 export const UserTableRows: React.FC = observer(() => {
     const {users} = useStore()
@@ -20,7 +20,7 @@ export const UserTableRows: React.FC = observer(() => {
                 <div
                     key={user.id}
                     className={'user-table__row'}
-                    style={{gridTemplateColumns: userTableViewModel.gridTemplate}}
+                    // style={{gridTemplateColumns: userTableViewModel.gridTemplate}}
                     onDragEnd={(e) => onDragEnd(index, e)}
                     onDragOver={e => e.preventDefault()}
                     draggable
