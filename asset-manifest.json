@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/crm/static/css/main.c44cba5d.css",
+    "main.js": "/crm/static/js/main.5eaaa3ee.js",
+    "index.html": "/crm/index.html",
+    "static/media/edit.svg": "/crm/static/media/edit.4dac27f018c694343b8b.svg",
+    "static/media/arrow.svg": "/crm/static/media/arrow.97b3de1773c8db3f620c.svg",
+    "static/media/delete.svg": "/crm/static/media/delete.b5d3904ae674333feafd.svg",
+    "main.c44cba5d.css.map": "/crm/static/css/main.c44cba5d.css.map",
+    "main.5eaaa3ee.js.map": "/crm/static/js/main.5eaaa3ee.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c44cba5d.css",
+    "static/js/main.5eaaa3ee.js"
+  ]
+}
