@@ -12,7 +12,7 @@ interface UserFormProps {
     buttonTitle: string;
 }
 
-const UserForm = childView<UserFormViewModel>()<UserFormProps>(({
+export const UserForm = childView<UserFormViewModel>()<UserFormProps>(({
     viewModel,
     userId,
     buttonTitle,
@@ -36,7 +36,6 @@ const UserForm = childView<UserFormViewModel>()<UserFormProps>(({
                           handleBlur,
                           handleSubmit,
                           isSubmitting,
-                          /* and other goodies */
                       }) => (
                         <form className={'add-user-form'} onSubmit={handleSubmit}>
                             {viewModel.inputs.map(input => (
@@ -70,5 +69,3 @@ const UserForm = childView<UserFormViewModel>()<UserFormProps>(({
         return null
     }
 });
-
-export default UserForm;

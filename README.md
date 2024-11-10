@@ -7,6 +7,10 @@
 3. ```yarn start``` / ```npm install```
 4. Enjoy 😉
 
+## 🔥 Deployment
+
+#### https://soupinnerhtml.github.io/crm/
+
 ## ℹ️ MVVM
 Для проекта я использовал архитектуру MVVM:
 

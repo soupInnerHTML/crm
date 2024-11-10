@@ -61,8 +61,8 @@ a {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 16px;
   &:focus {
-    border-color: $accent; /* Основной цвет */
-    box-shadow: 0 6px 10px rgba($accent, .2); /* Цвет с тенью */
+    border-color: $accent;
+    box-shadow: 0 6px 10px rgba($accent, .2);
   }
   &::placeholder {
     color: #aaa;

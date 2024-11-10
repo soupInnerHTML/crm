@@ -4,7 +4,7 @@ import {ViewModel} from "@yoskutik/react-vvm";
 import {areYouSure, camelCaseToText, makeHeader, persistable} from "@utils";
 import {singleton} from "tsyringe";
 import {UsersModel} from "@models";
-import {MouseEvent, DragEvent} from "react";
+import React from "react";
 
 @singleton()
 @persistable("userTable")
@@ -69,13 +69,13 @@ export class UserTableViewModel extends ViewModel implements IUserTableViewModel
     @action removeUser(id: string, message = "Are you sure you want to delete the user?") {
         areYouSure(() => this.usersModel.removeUser(id), message)
     }
-    @action drag(fromIndex: number, e: DragEvent<HTMLDivElement>) {
+    @action drag(fromIndex: number, e: React.DragEvent<HTMLDivElement>) {
         if(!this.isResizing) {
             const dragging = e.currentTarget
             const top = dragging.getBoundingClientRect().top
-            const headerHeight = 60; // TODO fix
+            const headerHeight = 60;
             const offsetY = e.clientY - top - headerHeight;
-            const rowHeight = 53; // TODO fix
+            const rowHeight = 53;
             this.usersModel.moveUser(fromIndex, offsetY / rowHeight)
         }
     }
@@ -93,7 +93,7 @@ export class UserTableViewModel extends ViewModel implements IUserTableViewModel
     }
 
     @action resize(
-        e: MouseEvent<HTMLDivElement>,
+        e: React.MouseEvent<HTMLDivElement>,
         index: number,
     ) {
         this.isResizing = true;
@@ -110,18 +110,14 @@ export class UserTableViewModel extends ViewModel implements IUserTableViewModel
 
                 // стандартное условие: если в промежутке между maxRowWidth & minRowWidth
                 if (newWidth <= this.maxRowWidth && newWidth >= this.minRowWidth && !isOverflow) {
-                    this.rowsPercentage[index] = initialWidth + deltaPercent; // TODO fix
-                    return this.adjustRowWidths(index)
+                    return this.updateRowWidth(index, newWidth)
                 }
-                // условие:
                 if(!prevRows.some(row => row === this.minRowWidth) && deltaPercent < 0 && !isOverflow) {
-                    this.rowsPercentage[index] = initialWidth + deltaPercent;
-                    return this.adjustRowWidths(index)
+                    return this.updateRowWidth(index, newWidth)
                 }
                 // условие: если в результате сдвига соседних колонок текущая стала больше maxRowWidth
                 if(initialWidth >= this.maxRowWidth && deltaPercent < 0 && !isOverflow) {
-                    this.rowsPercentage[index] = initialWidth + deltaPercent;
-                    return this.adjustRowWidths(index)
+                    return this.updateRowWidth(index, newWidth)
                 }
 
             })
@@ -135,6 +131,11 @@ export class UserTableViewModel extends ViewModel implements IUserTableViewModel
 
         document.addEventListener('mousemove', mouseMoveHandler);
         document.addEventListener('mouseup', mouseUpHandler);
+    }
+    @action
+    private updateRowWidth(index: number, width: number) {
+        this.rowsPercentage[index] = width;
+        this.adjustRowWidths(index)
     }
     @action
     private adjustRowWidths(from: number) {

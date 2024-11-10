@@ -1,6 +1,6 @@
 import React, {useLayoutEffect} from 'react';
 import {view} from "@yoskutik/react-vvm";
-import UserForm from "./UserForm";
+import {UserForm} from "./UserForm";
 import {useParams} from "react-router-dom";
 import {EditUserFormViewModel} from "@viewModels";
 

@@ -1,12 +1,12 @@
 import { hydrate } from "./hydrate";
 
-// Декоратор persistable для автоматической гидрации
+// Декоратор persistable для автоматической гидратации
 export function persistable(storageKey: string) {
     return function <T extends { new(...args: any[]): {} }>(constructor: T) {
         return class extends constructor {
             constructor(...args: any[]) {
                 super(...args);
-                // Гидрация экземпляра класса
+                // Гидратация экземпляра класса
                 hydrate(storageKey, this)
                     .then(() => {
                         if ((this as IHydratable)._onHydrated) {
@@ -14,7 +14,7 @@ export function persistable(storageKey: string) {
                         }
                     })
                     .catch(error => {
-                        console.error(`Ошибка гидрации для ${storageKey}:`, error);
+                        console.error(`Ошибка гидратации для ${storageKey}:`, error);
                     });
             }
         };
