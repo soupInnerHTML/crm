@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext",
-      "es6"
+      "esnext"
     ],
-    "types": ["reflect-metadata"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -23,6 +21,19 @@
     "jsx": "react-jsx",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@library": ["componentsLibrary"],
+      "@constants": ["constants"],
+      "@types": ["types"],
+      "@services": ["services"],
+      "@models": ["mvvm/models"],
+      "@viewModels": ["mvvm/viewModels"],
+      "@views": ["mvvm/views"],
+      "@utils": ["utils"],
+      "@animations/*": ["assets/animations/*"],
+      "@icons/*": ["assets/icons/*"]
+    }
   },
   "include": [
     "src"

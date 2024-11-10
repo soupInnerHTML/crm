@@ -2,12 +2,6 @@
 @import "variables/borders";
 @import "variables/sizes";
 
-
-@mixin grid-layout {
-  display: grid;
-  //grid-template-columns: 8% repeat(4, minmax(100px, 1fr)) 8%;
-}
-
 @mixin arrow {
   content: "";
   position: absolute; /* Абсолютное позиционирование для размещения */
@@ -20,10 +14,13 @@
 }
 
 .user-table {
+  &-container {
+    width: 100%;
+  }
   width: 100%;
   margin-bottom: 20px;
   border-radius: $border-radius;
-  overflow: scroll;
+  overflow: hidden;
   position: relative;
   max-height: 80vh;
   // для красивого border-radius
@@ -40,7 +37,7 @@
     z-index: -1;
   }
   &__headers {
-    @include grid-layout;
+    display: grid;
     height: 60px;
   }
   &__header {
@@ -52,14 +49,18 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    &:after {
+    overflow: hidden;
+    &__resize_right, &__resize_left {
       content: '';
       position: absolute;
-      right: -10px;
+      right: 0;
       top: 0;
       bottom: 0;
       width: 20px;
       cursor: col-resize;
+    }
+    &__resize_left {
+      left: 0;
     }
     &__text{
       position: relative;
@@ -72,16 +73,17 @@
     }
     &__text_sorted{
       &::after {
+        border-top: 5px solid #000;
+      }
+      &_asc::after {
         @include arrow;
         transform: translateY(-40%) rotate(180deg);
+        border-top: 5px solid #000;
       }
     }
   }
-  &__rows {
-    // TODO add styles?
-  }
   &__row {
-    @include grid-layout;
+    display: grid;
     cursor: grab;
     &__content {
       border: $default-border;
@@ -91,6 +93,11 @@
       height: 53px;
       overflow: hidden;
       padding: 10px;
+      position: relative;
+      &_actions {
+        display: flex;
+        gap: 3px;
+      }
       &__text {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -98,15 +105,26 @@
         z-index: 1;
         cursor: pointer;
       }
-      &__delete {
-        background-color: $danger;
+      &__action {
         color: #fff;
         border: none;
         border-radius: 4px;
-        padding: 4px 8px;
-        font-size: 12px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        background-size: 20px 20px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        &_delete {
+          background-image: url("../assets/icons/delete.svg");
+          background-color: $danger;
+        }
+        &_edit {
+          background-image: url("../assets/icons/edit.svg");
+          background-color: #007BFF;
+          background-size: 16px 16px;
+        }
       }
     }
   }

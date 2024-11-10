@@ -1,3 +1,6 @@
-// TODO add exports
-
+export {persistable} from './persistable'
+export {areYouSure} from './areYouSure'
+export {camelCaseToText} from './camelCaseToText'
+export {makeHeader} from './makeHeader'
+export {omitId} from './omitId'
 export {hydrate} from './hydrate'

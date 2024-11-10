@@ -1,14 +1,9 @@
-import { Container } from 'inversify';
-import {UserStore} from "../store/users";
 import {configure} from "@yoskutik/react-vvm";
-// import {UserTableViewModel} from "../viewModels/userTableViewModel";
+import {container} from "tsyringe";
+import {UsersModel} from "@models";
 
-
-export const container = new Container();
-// container.register<UserTableViewModel>('UserTableViewModel', { useClass: UserTableViewModel })
+container.resolve(UsersModel)
 
 configure({
-    vmFactory: VM => container.resolve(VM),
+    vmFactory: VM => container.resolve(VM)
 });
-
-container.resolve(UserStore);

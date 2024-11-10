@@ -1,46 +1,69 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# О проекте
 
-## Available Scripts
+## 🛠 Запуск
+1. Добавить ```.env``` файл в проект, чтобы был доступ к api
+2. ```yarn install``` / ```npm install```
+3. ```yarn start``` / ```npm install```
+4. Enjoy 😉
 
-In the project directory, you can run:
+## ℹ️ MVVM
+Для проекта я использовал архитектуру MVVM:
 
-### `npm start`
+1. ```Model``` - бизнес логика / бизнес данные / состояние всего приложение (```mobx```)
+2. ```View``` - компоненты (```react```)
+3. ```View Model``` - состояние компонент. Связывает Model и View - промежуточное звено. ([@yoskutik/react-vvm](https://www.npmjs.com/package/@yoskutik/react-vvm), [tsyringe](https://www.npmjs.com/package/tsyringe))
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Схема взаимодействия: ```Model``` <-> ```View Model``` <-> ```View```. В этом паттерне View и Model не общаются напрямую, только через посредника View Model.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🚀 Пример VVM
+### Под капотом ```@yoskutik/react-vvm``` использует ```mobx```, ```mobx-react```. Вдохновлен [этой статьей](https://habr.com/ru/articles/692218/)
+```typescript 
+import { observable, makeObservable } from 'mobx';
+import { view, ViewModel } from '@yoskutik/react-vvm';
 
-### `npm test`
+class ComponentViewModel extends ViewModel {
+  @observable data = undefined;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  constructor() {
+    super();
+    makeObservable(this);
+  }
 
-### `npm run build`
+  // Например, в моей реализации эта функция замещает вызов
+  // useLayoutEffect(() => { ... }, []);
+  protected onViewMountedSync() {
+    fetch('url')
+      .then(res => res.json())
+      .then(res => this.doSomething(res));
+  }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  // А эта частично замещает
+  // useEffect(() => { ... });
+  protected onViewUpdated() {
+    console.log('Some functionality after component updated');
+  }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  doSomething = (res: any) => {};
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export const Component = view(ComponentViewModel)(({ viewModel }) => (
+  <div>
+    {viewModel.data}
+  </div>
+));
+```
 
-### `npm run eject`
+## ℹ️ Dependency Injection
+В архитектуре MVVM (Model-View-ViewModel) Dependency Injection (DI) используется для инверсии зависимости. DI позволяет инжектировать Model во ViewModel Это делает код более гибким и модульным, а также отделяет бизнес-логику от реализации, что полезно для тестирования и поддержки кода.
+Для этого я использую библиотеку [tsyringe](https://www.npmjs.com/package/tsyringe)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🚀 Пример использования Dependency Injection в MVVM
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```typescript
+import { injectable } from 'tsyringe';
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+@injectable()
+class ViewModel {
+    constructor(private model: Model) {} // Инжектируется Model 
+}
